@@ -1,71 +1,135 @@
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/4da4fb74-6da0-426b-a55b-7a4adfd3a515" /># Machine-Learnin
-project to Learn human how to Learn Machine?:
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teachable Machine Image Classifier</title>
 
-this Link for project :
-
-https://teachablemachine.withgoogle.com/models/6_06z-skR/
-===================================================================================
-
-this code for project
-
-
-
-<div>Teachable Machine Image Model</div>
-<button type="button" onclick="init()">Start</button>
-<div id="webcam-container"></div>
-<div id="label-container"></div>
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
-<script type="text/javascript">
-    // More API functions here:
-    // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
 
-    // the link to your model provided by Teachable Machine export panel
-    const URL = "https://teachablemachine.withgoogle.com/models/6_06z-skR/";
+<style>
+body{
+    font-family:Arial;
+    text-align:center;
+    background:#f5f5f5;
+}
 
-    let model, webcam, labelContainer, maxPredictions;
+.container{
+    width:600px;
+    margin:auto;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,.2);
+}
 
-    // Load the image model and setup the webcam
-    async function init() {
-        const modelURL = URL + "model.json";
-        const metadataURL = URL + "metadata.json";
+img{
+    margin-top:20px;
+    max-width:400px;
+    max-height:400px;
+    border-radius:10px;
+    border:2px solid #ddd;
+}
 
-        // load the model and metadata
-        // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
-        // or files from your local hard drive
-        // Note: the pose library adds "tmImage" object to your window (window.tmImage)
-        model = await tmImage.load(modelURL, metadataURL);
-        maxPredictions = model.getTotalClasses();
+button{
+    margin-top:20px;
+    padding:10px 20px;
+    font-size:18px;
+    cursor:pointer;
+}
 
-        // Convenience function to setup a webcam
-        const flip = true; // whether to flip the webcam
-        webcam = new tmImage.Webcam(200, 200, flip); // width, height, flip
-        await webcam.setup(); // request access to the webcam
-        await webcam.play();
-        window.requestAnimationFrame(loop);
+#label-container{
+    margin-top:20px;
+    font-size:20px;
+}
+</style>
 
-        // append elements to the DOM
-        document.getElementById("webcam-container").appendChild(webcam.canvas);
-        labelContainer = document.getElementById("label-container");
-        for (let i = 0; i < maxPredictions; i++) { // and class labels
-            labelContainer.appendChild(document.createElement("div"));
-        }
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Machine Learning Image Classification</h2>
+
+<input type="file" id="imageUpload" accept="image/*">
+
+<br>
+
+<img id="preview" style="display:none;">
+
+<br>
+
+<button onclick="predictImage()">تحليل الصورة</button>
+
+<div id="label-container"></div>
+
+</div>
+
+<script>
+
+const MODEL_URL = "https://teachablemachine.withgoogle.com/models/6_06z-skR/";
+
+let model;
+let maxPredictions;
+let labelContainer;
+
+async function loadModel(){
+
+    const modelURL = MODEL_URL + "model.json";
+    const metadataURL = MODEL_URL + "metadata.json";
+
+    model = await tmImage.load(modelURL, metadataURL);
+
+    maxPredictions = model.getTotalClasses();
+
+    labelContainer = document.getElementById("label-container");
+
+    for(let i=0;i<maxPredictions;i++){
+        labelContainer.appendChild(document.createElement("div"));
     }
 
-    async function loop() {
-        webcam.update(); // update the webcam frame
-        await predict();
-        window.requestAnimationFrame(loop);
+}
+
+window.onload = loadModel;
+
+document.getElementById("imageUpload").addEventListener("change",function(event){
+
+    const file = event.target.files[0];
+
+    if(!file) return;
+
+    const image = document.getElementById("preview");
+
+    image.src = URL.createObjectURL(file);
+
+    image.style.display="block";
+
+});
+
+async function predictImage(){
+
+    const image=document.getElementById("preview");
+
+    if(image.src==""){
+        alert("اختر صورة أولاً");
+        return;
     }
 
-    // run the webcam image through the image model
-    async function predict() {
-        // predict can take in an image, video or canvas html element
-        const prediction = await model.predict(webcam.canvas);
-        for (let i = 0; i < maxPredictions; i++) {
-            const classPrediction =
-                prediction[i].className + ": " + prediction[i].probability.toFixed(2);
-            labelContainer.childNodes[i].innerHTML = classPrediction;
-        }
+    const prediction=await model.predict(image);
+
+    for(let i=0;i<maxPredictions;i++){
+
+        labelContainer.childNodes[i].innerHTML=
+        "<b>"+prediction[i].className+"</b> : "+
+        (prediction[i].probability*100).toFixed(2)+" %";
+
     }
+
+}
+
 </script>
+
+</body>
+</html>
