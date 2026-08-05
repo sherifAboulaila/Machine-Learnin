@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Teachable Machine Image Classifier</title>
-<img width="1920" height="1080" alt="image" src="Screenshot (10).png" /># Machine-Learnin
+<img width="1920" height="1080" alt="image" src="Screenshot (10).png" /># Machine-Learning
 project to Learn human how to Learn Machine?:
 
 this Link for project :
