@@ -1,8 +1,8 @@
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/4da4fb74-6da0-426b-a55b-7a4adfd3a515" /># Machine-Learnin
 project to how human Learn Machine
 this Link for project 
-
 https://teachablemachine.withgoogle.com/models/6_06z-skR/
+===================================================================================
 and this code for project
 
 
