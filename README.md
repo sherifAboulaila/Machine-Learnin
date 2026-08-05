@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Teachable Machine Image Classifier</title>
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/4da4fb74-6da0-426b-a55b-7a4adfd3a515" /># Machine-Learnin
+<img width="1920" height="1080" alt="image" src="Screenshot (10).png" /># Machine-Learnin
 project to Learn human how to Learn Machine?:
 
 this Link for project :
